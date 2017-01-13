@@ -19,4 +19,6 @@ public abstract class IContact
     }
 
     public abstract void editData();
+
+    public abstract String getQRData();
 }

@@ -14,6 +14,7 @@ public class PhoneConnection extends IContact
 {
     private TelephonyManager tMgr;
     private MainActivity main;
+    private String phoneNum;
 
 
     public PhoneConnection(TextView dataField, CheckBox box, TelephonyManager tMgr, MainActivity ma)
@@ -31,7 +32,8 @@ public class PhoneConnection extends IContact
             return;
 
         //fill in phone number text field
-        String phoneNum = tMgr.getLine1Number();
+        phoneNum = null;
+        phoneNum = tMgr.getLine1Number();
         if (phoneNum != null)
         {
             this.dataTextView.setText(phoneNum);
@@ -49,5 +51,11 @@ public class PhoneConnection extends IContact
     public void editData()
     {
 
+    }
+
+    @Override
+    public String getQRData()
+    {
+        return "Phone:"+phoneNum;
     }
 }

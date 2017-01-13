@@ -2,7 +2,9 @@ package com.eg.contactconnect0;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -11,7 +13,17 @@ import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ViewFlipper;
+
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 import static android.Manifest.permission.READ_CONTACTS;
 import static android.Manifest.permission.READ_SMS;
@@ -21,12 +33,15 @@ public class MainActivity extends AppCompatActivity
     private static final int REQUEST_READ_SMS = 1;
 
     private PhoneConnection phoneConnection;
+    private ViewFlipper viewFlipper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        viewFlipper = (ViewFlipper) findViewById(R.id.view_flipper);
 
         //set up contact methods
         phoneConnection = new PhoneConnection(
@@ -39,6 +54,41 @@ public class MainActivity extends AppCompatActivity
     public void phoneEditButton(View view)
     {
         phoneConnection.editData();
+    }
+
+    public void qrScanButton(View view)
+    {
+        //open the qr code scanner
+        IntentIntegrator integrator = new IntentIntegrator(this);
+        integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
+        integrator.setPrompt("Scan a ContactConnect QR Code");
+        integrator.setCameraId(0);
+        integrator.setBeepEnabled(true);
+        integrator.setBarcodeImageEnabled(false);
+        integrator.setOrientationLocked(true);
+        integrator.initiateScan();
+    }
+
+    public void qrWriteButton(View view)
+    {
+        MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
+        try
+        {
+            BitMatrix bitMatrix = multiFormatWriter.encode(phoneConnection.getQRData(), BarcodeFormat.QR_CODE,400,400);
+            BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+            Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+            ((ImageView) findViewById(R.id.qrimage)).setImageBitmap(bitmap);
+            viewFlipper.showNext();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void qrBackButton(View view)
+    {
+        viewFlipper.showPrevious();
     }
 
     public boolean mayReadPhone()
@@ -102,5 +152,27 @@ public class MainActivity extends AppCompatActivity
 
         //resume client
         Client.instance.resume();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        //called when code scanning done
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if(result != null)
+        {
+            if(result.getContents() == null)
+            {
+                System.out.println("Cancelled scan");
+                Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
+            } else {
+                System.out.println("Scanned");
+                Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+            }
+        } else
+        {
+            // This is important, otherwise the result will not be passed to the fragment
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 }
