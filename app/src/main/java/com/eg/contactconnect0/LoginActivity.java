@@ -372,8 +372,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             try
             {
-                // Wait for 10 seconds
-                for (int i = 0; i < 40; i++)
+                // Wait for 8 seconds
+                for (int i = 0; i < 32; i++)
                 {
                     Thread.sleep(250);
                     if (Client.instance.isHasResponse())
@@ -387,13 +387,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     return Client.instance.isConnectionAccepted();
                 } else
                 {
-                    LoginActivity.this.runOnUiThread(new Runnable()
-                    {
-                        public void run()
-                        {
-                            Toast.makeText(getApplicationContext(), "Connection Timed Out", Toast.LENGTH_LONG).show();
-                        }
-                    });
+                    //LoginActivity.this.runOnUiThread(new Runnable()
+                    //{
+                    //    public void run()
+                    //    {
+                    //        Toast.makeText(getApplicationContext(), "Connection Timed Out", Toast.LENGTH_LONG).show();
+                    //    }
+                    //});
                     return false;
                 }
             } catch (InterruptedException e)
@@ -415,7 +415,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 startActivity(intent);
             } else
             {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
+                if (Client.instance.isHasResponse())
+                    mPasswordView.setError(getString(R.string.error_incorrect_password));
+                else
+                    mPasswordView.setError(getString(R.string.error_connection_failed));
+
                 mPasswordView.requestFocus();
             }
         }

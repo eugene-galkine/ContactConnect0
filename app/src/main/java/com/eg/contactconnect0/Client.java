@@ -25,7 +25,8 @@ public class Client
 
     private Client()
     {
-
+        this.UserName = "";
+        this.Password = "";
     }
 
     public void connect (String userName, String password)
@@ -39,6 +40,9 @@ public class Client
 
     private void connect()
     {
+        if (UserName.equals("") && Password.equals(""))
+            return;
+
         if (ClientSocket != null)
         {
             for (StackTraceElement ste : Thread.currentThread().getStackTrace())
@@ -85,6 +89,11 @@ public class Client
         {
             OutToServer.writeBytes(s + '\n');
         } catch (Exception e) {e.printStackTrace();}
+    }
+
+    public void contactInfo (String type, String id)
+    {
+        sendMessage("CONTACT_INFO" + type + ":" + id);
     }
 
     public boolean isHasResponse()
