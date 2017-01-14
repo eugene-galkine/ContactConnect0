@@ -25,12 +25,12 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
-import static android.Manifest.permission.READ_CONTACTS;
 import static android.Manifest.permission.READ_SMS;
 
 public class MainActivity extends AppCompatActivity
 {
     private static final int REQUEST_READ_SMS = 1;
+    private static final int REQUEST_WRITE_CONTACTS = 2;
 
     private PhoneConnection phoneConnection;
     private NameConnection nameConnection;
@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity
         MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
         try
         {
+            //TODO don't do qr code manually
             BitMatrix bitMatrix = multiFormatWriter.encode(nameConnection.getQRData()+ ":" + phoneConnection.getQRData(), BarcodeFormat.QR_CODE,400,400);
             BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
             Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
@@ -99,6 +100,39 @@ public class MainActivity extends AppCompatActivity
     public void qrBackButton(View view)
     {
         viewFlipper.showPrevious();
+    }
+
+    private void processQRData(String text)
+    {
+        //parse the QR code message
+        try
+        {
+            String buffer = text;
+            InputContact inputContact = new InputContact();
+
+            do
+            {
+                //get data type and data
+                String type = buffer.substring(0, buffer.indexOf(":"));
+                buffer = buffer.substring(buffer.indexOf(":") + 1);
+
+                String data;
+                if (buffer.contains(":"))
+                {
+                    data = buffer.substring(0, buffer.indexOf(":"));
+                    buffer = buffer.substring(buffer.indexOf(":") + 1);
+                } else
+                    data = buffer;
+
+                inputContact.addDataType(type, data);
+            } while (buffer.contains(":"));
+
+            //save the contact
+            inputContact.addContact(this);
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     public boolean mayReadPhone()
@@ -174,10 +208,11 @@ public class MainActivity extends AppCompatActivity
             if(result.getContents() == null)
             {
                 System.out.println("Cancelled scan");
-                Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Scan Cancelled", Toast.LENGTH_LONG).show();
             } else {
-                System.out.println("Scanned");
-                Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+                System.out.println("Scanned: " + result.getContents());
+                //Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+                processQRData(result.getContents());
             }
         } else
         {
