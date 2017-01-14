@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity
     private static final int REQUEST_READ_SMS = 1;
 
     private PhoneConnection phoneConnection;
+    private NameConnection nameConnection;
     private ViewFlipper viewFlipper;
 
     @Override
@@ -49,11 +50,20 @@ public class MainActivity extends AppCompatActivity
                 (CheckBox)findViewById(R.id.phoneCheckBox),
                 (TelephonyManager)getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE),
                 this);
+        nameConnection = new NameConnection(
+                (TextView)findViewById(R.id.nameTextView),
+                (CheckBox)findViewById(R.id.nameCheckBox),
+                this);
     }
 
     public void phoneEditButton(View view)
     {
-        phoneConnection.editData();
+        phoneConnection.editData(this);
+    }
+
+    public void nameEditButton(View view)
+    {
+        nameConnection.editData(this);
     }
 
     public void qrScanButton(View view)
@@ -74,7 +84,7 @@ public class MainActivity extends AppCompatActivity
         MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
         try
         {
-            BitMatrix bitMatrix = multiFormatWriter.encode(phoneConnection.getQRData(), BarcodeFormat.QR_CODE,400,400);
+            BitMatrix bitMatrix = multiFormatWriter.encode(nameConnection.getQRData()+ ":" + phoneConnection.getQRData(), BarcodeFormat.QR_CODE,400,400);
             BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
             Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
             ((ImageView) findViewById(R.id.qrimage)).setImageBitmap(bitmap);

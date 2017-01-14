@@ -1,6 +1,7 @@
 package com.eg.contactconnect0;
 
 import android.telephony.TelephonyManager;
+import android.text.InputType;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
@@ -13,15 +14,14 @@ import static android.Manifest.permission.READ_CONTACTS;
 public class PhoneConnection extends IContact
 {
     private TelephonyManager tMgr;
-    private MainActivity main;
     private String phoneNum;
 
 
     public PhoneConnection(TextView dataField, CheckBox box, TelephonyManager tMgr, MainActivity ma)
     {
-        super(dataField, box);
+        super(dataField, box, ma);
         this.tMgr = tMgr;
-        this.main = ma;
+        this.inputType = InputType.TYPE_CLASS_PHONE;
 
         tryFillForm();
     }
@@ -38,8 +38,7 @@ public class PhoneConnection extends IContact
         {
             this.dataTextView.setText(phoneNum);
             Client.instance.contactInfo("Phone", phoneNum);
-        }
-        else
+        } else
         {
             //no phone num
             this.dataTextView.setText(main.getString(R.string.error_no_num));
@@ -48,14 +47,16 @@ public class PhoneConnection extends IContact
     }
 
     @Override
-    public void editData()
+    void dataWasChanged(String text)
     {
-
+        phoneNum = text;
+        Client.instance.contactInfo("Phone", text);
     }
 
     @Override
     public String getQRData()
     {
-        return "Phone:"+phoneNum;
+        //return phone number if it is checked otherwise return nothing
+        return checkBox.isChecked() ? "Phone:"+phoneNum : "";
     }
 }
