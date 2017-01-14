@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 public class InputContact
 {
-    String name, phone;
+    String name, phone, email;
 
     public InputContact()
     {
@@ -30,6 +30,9 @@ public class InputContact
         } else if (type.equals("Phone"))
         {
             phone = data;
+        } else if (type.equals("Email"))
+        {
+            email = data;
         }
     }
 
@@ -41,7 +44,8 @@ public class InputContact
 
         contactIntent
                 .putExtra(ContactsContract.Intents.Insert.NAME, name)
-                .putExtra(ContactsContract.Intents.Insert.PHONE, phone);
+                .putExtra(ContactsContract.Intents.Insert.PHONE, phone)
+                .putExtra(ContactsContract.Intents.Insert.EMAIL, email);
 
         context.startActivityForResult(contactIntent, 1);
     }

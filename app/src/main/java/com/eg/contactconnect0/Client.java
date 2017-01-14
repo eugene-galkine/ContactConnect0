@@ -113,6 +113,11 @@ public class Client
         sendMessage("REQUEST_DATA");
     }
 
+    public String getUser()
+    {
+        return UserName;
+    }
+
     private class clientListenThread extends Thread
     {
         @Override

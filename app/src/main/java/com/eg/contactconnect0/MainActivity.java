@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity
 
     private PhoneConnection phoneConnection;
     private NameConnection nameConnection;
+    private EmailConnection emailConnection;
     private ViewFlipper viewFlipper;
 
     @Override
@@ -53,6 +54,10 @@ public class MainActivity extends AppCompatActivity
                 (TextView)findViewById(R.id.nameTextView),
                 (CheckBox)findViewById(R.id.nameCheckBox),
                 this);
+        emailConnection = new EmailConnection(
+                (TextView)findViewById(R.id.emailTextView),
+                (CheckBox)findViewById(R.id.emailCheckBox),
+                this);
 
         Client.instance.setMainActivity(this);
     }
@@ -67,6 +72,11 @@ public class MainActivity extends AppCompatActivity
         nameConnection.editData(this);
     }
 
+    public void emailEditButton(View view)
+    {
+        emailConnection.editData(this);
+    }
+
     public void nameCheckButton(View view)
     {
         nameConnection.checkBoxClick("nameCheckBox");
@@ -75,6 +85,11 @@ public class MainActivity extends AppCompatActivity
     public void phoneCheckButton(View view)
     {
         phoneConnection.checkBoxClick("phoneCheckBox");
+    }
+
+    public void emailCheckButton(View view)
+    {
+       emailConnection.checkBoxClick("emailCheckBox");
     }
 
     public void qrScanButton(View view)
@@ -96,7 +111,7 @@ public class MainActivity extends AppCompatActivity
         try
         {
             //TODO don't do qr code manually
-            BitMatrix bitMatrix = multiFormatWriter.encode(nameConnection.getQRData()+ ":" + phoneConnection.getQRData(), BarcodeFormat.QR_CODE,400,400);
+            BitMatrix bitMatrix = multiFormatWriter.encode(nameConnection.getQRData()+ ":" + phoneConnection.getQRData() + ":" + emailConnection.getQRData(), BarcodeFormat.QR_CODE,400,400);
             BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
             Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
             ((ImageView) findViewById(R.id.qrimage)).setImageBitmap(bitmap);
@@ -174,6 +189,8 @@ public class MainActivity extends AppCompatActivity
                     nameConnection.setData(data);
                 else if (type.equals("Phone"))
                     phoneConnection.setData(data);
+                else if (type.equals("Email"))
+                    emailConnection.setData(data);
             } while (buffer.contains(":"));
         } catch (Exception e)
         {
