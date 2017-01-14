@@ -82,6 +82,7 @@ public class Client
     public void resume()
     {
         connect();
+        sendMessage("REQUEST_DATA");
     }
 
     private void sendMessage (String s)
