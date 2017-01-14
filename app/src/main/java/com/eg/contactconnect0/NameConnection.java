@@ -2,6 +2,7 @@ package com.eg.contactconnect0;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -15,6 +16,10 @@ public class NameConnection extends IContact
     public NameConnection(TextView dataField, CheckBox box, MainActivity ma)
     {
         super(dataField, box, ma);
+
+        boolean checked = PreferenceManager.getDefaultSharedPreferences(main)
+                .getBoolean("nameCheckBox", true);
+        checkBox.setChecked(checked);
 
         tryFillForm();
     }

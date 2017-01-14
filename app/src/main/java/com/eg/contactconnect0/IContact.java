@@ -3,6 +3,7 @@ package com.eg.contactconnect0;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -67,5 +68,11 @@ public abstract class IContact
                 dataTextView.setText(data);
             }
         });
+    }
+
+    public void checkBoxClick(String name)
+    {
+        PreferenceManager.getDefaultSharedPreferences(main).edit()
+                .putBoolean(name, checkBox.isChecked()).apply();
     }
 }

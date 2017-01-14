@@ -67,6 +67,16 @@ public class MainActivity extends AppCompatActivity
         nameConnection.editData(this);
     }
 
+    public void nameCheckButton(View view)
+    {
+        nameConnection.checkBoxClick("nameCheckBox");
+    }
+
+    public void phoneCheckButton(View view)
+    {
+        phoneConnection.checkBoxClick("phoneCheckBox");
+    }
+
     public void qrScanButton(View view)
     {
         //open the qr code scanner

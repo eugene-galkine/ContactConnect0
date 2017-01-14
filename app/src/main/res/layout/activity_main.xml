@@ -67,6 +67,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="end|center_vertical"
                         android:id="@+id/nameCheckBox"
+                        android:onClick="nameCheckButton"
                         android:checked="true"
                         android:layout_weight="0.1"/>
                 </TableRow>
@@ -107,6 +108,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="end|center_vertical"
                         android:id="@+id/phoneCheckBox"
+                        android:onClick="phoneCheckButton"
                         android:checked="true"
                         android:layout_weight="0.1"/>
 
