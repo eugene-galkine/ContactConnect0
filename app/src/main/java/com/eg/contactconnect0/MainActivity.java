@@ -30,7 +30,6 @@ import static android.Manifest.permission.READ_SMS;
 public class MainActivity extends AppCompatActivity
 {
     private static final int REQUEST_READ_SMS = 1;
-    private static final int REQUEST_WRITE_CONTACTS = 2;
 
     private PhoneConnection phoneConnection;
     private NameConnection nameConnection;
@@ -54,6 +53,8 @@ public class MainActivity extends AppCompatActivity
                 (TextView)findViewById(R.id.nameTextView),
                 (CheckBox)findViewById(R.id.nameCheckBox),
                 this);
+
+        Client.instance.setMainActivity(this);
     }
 
     public void phoneEditButton(View view)
@@ -131,7 +132,43 @@ public class MainActivity extends AppCompatActivity
             inputContact.addContact(this);
         } catch (Exception e)
         {
-            e.printStackTrace();
+            System.out.println("ERROR PARSING QR CODE");
+            //e.printStackTrace();
+        }
+    }
+
+    public void recieveData(String text)
+    {
+        //parse user data
+        try
+        {
+            System.out.println("USER_DATA - " + text);
+            String buffer = text;
+
+            do
+            {
+                //get data type and data
+                String type = buffer.substring(0, buffer.indexOf(":"));
+                buffer = buffer.substring(buffer.indexOf(":") + 1);
+
+                String data;
+                if (buffer.contains(":"))
+                {
+                    data = buffer.substring(0, buffer.indexOf(":"));
+                    buffer = buffer.substring(buffer.indexOf(":") + 1);
+                } else
+                    data = buffer;
+
+                //TODO add new contact types to this
+                if (type.equals("Name"))
+                    nameConnection.setData(data);
+                else if (type.equals("Phone"))
+                    phoneConnection.setData(data);
+            } while (buffer.contains(":"));
+        } catch (Exception e)
+        {
+            System.out.println("ERROR PARSING DATA FROM SERVER");
+            //e.printStackTrace();
         }
     }
 

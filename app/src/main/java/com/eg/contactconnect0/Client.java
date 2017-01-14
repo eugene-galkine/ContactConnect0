@@ -22,6 +22,7 @@ public class Client
     private Socket ClientSocket;
     private String UserName, Password;
     private boolean hasResponse, connectionAccepted;
+    private MainActivity mainActivity;
 
     private Client()
     {
@@ -106,6 +107,12 @@ public class Client
         return connectionAccepted;
     }
 
+    public void setMainActivity(MainActivity mainActivity)
+    {
+        this.mainActivity = mainActivity;
+        sendMessage("REQUEST_DATA");
+    }
+
     private class clientListenThread extends Thread
     {
         @Override
@@ -131,6 +138,9 @@ public class Client
                         connectionAccepted = false;
                         hasResponse = true;
                         close();
+                    } else if (in.startsWith("USER_DATA"))
+                    {
+                        mainActivity.recieveData(in.substring("USER_DATA".length()));
                     }
                 }
             } catch (Exception e)

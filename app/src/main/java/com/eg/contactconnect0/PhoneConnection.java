@@ -14,7 +14,6 @@ import static android.Manifest.permission.READ_CONTACTS;
 public class PhoneConnection extends IContact
 {
     private TelephonyManager tMgr;
-    private String phoneNum;
 
 
     public PhoneConnection(TextView dataField, CheckBox box, TelephonyManager tMgr, MainActivity ma)
@@ -32,12 +31,11 @@ public class PhoneConnection extends IContact
             return;
 
         //fill in phone number text field
-        phoneNum = null;
-        phoneNum = tMgr.getLine1Number();
+        String phoneNum = tMgr.getLine1Number();
         if (phoneNum != null)
         {
             this.dataTextView.setText(phoneNum);
-            Client.instance.contactInfo("Phone", phoneNum);
+            //Client.instance.contactInfo("Phone", phoneNum);
         } else
         {
             //no phone num
@@ -49,7 +47,6 @@ public class PhoneConnection extends IContact
     @Override
     void dataWasChanged(String text)
     {
-        phoneNum = text;
         Client.instance.contactInfo("Phone", text);
     }
 
@@ -57,6 +54,6 @@ public class PhoneConnection extends IContact
     public String getQRData()
     {
         //return phone number if it is checked otherwise return nothing
-        return checkBox.isChecked() ? "Phone:"+phoneNum : "";
+        return checkBox.isChecked() ? "Phone:"+dataTextView.getText().toString() : "";
     }
 }

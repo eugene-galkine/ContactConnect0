@@ -59,4 +59,13 @@ public abstract class IContact
     }
 
     public abstract String getQRData();
+
+    public void setData(final String data)
+    {
+        main.runOnUiThread(new Runnable() {
+            public void run() {
+                dataTextView.setText(data);
+            }
+        });
+    }
 }

@@ -22,7 +22,7 @@ public class NameConnection extends IContact
     @Override
     void dataWasChanged(String t)
     {
-        Client.instance.contactInfo("Name", dataTextView.getText().toString());
+        Client.instance.contactInfo("Name", t);
     }
 
     public void tryFillForm()
@@ -32,7 +32,7 @@ public class NameConnection extends IContact
         if (c.moveToFirst())
         {
             dataTextView.setText(c.getString(c.getColumnIndex(ContactsContract.Profile.DISPLAY_NAME)));
-            Client.instance.contactInfo("Name", dataTextView.getText().toString());
+            //Client.instance.contactInfo("Name", dataTextView.getText().toString());
             c.close();
         }
     }
