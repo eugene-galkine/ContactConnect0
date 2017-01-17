@@ -156,6 +156,173 @@
 
                 </TableRow>
 
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:weightSum="1"
+                    >
+
+                    <TextView
+                        android:text="Facebook:"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textView3"
+                        android:textColor="@android:color/black"
+                        android:lines="1"
+                        android:layout_weight="0.4"/>
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/facebookTextView"
+                        android:lines="1"
+                        android:layout_weight="0.4"/>
+
+                    <Button
+                        android:text="Edit"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/facebookEditButton"
+                        android:layout_weight="0.1"
+                        android:textSize="12sp"
+                        android:onClick="facebookEditButton"/>
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center_vertical"
+                        android:id="@+id/facebookCheckBox"
+                        android:onClick="facebookCheckButton"
+                        android:checked="true"
+                        android:layout_weight="0.1"/>
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:weightSum="1"
+                    >
+
+                    <TextView
+                        android:text="Twitter:"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textView4"
+                        android:textColor="@android:color/black"
+                        android:lines="1"
+                        android:layout_weight="0.4"/>
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/twitterTextView"
+                        android:lines="1"
+                        android:layout_weight="0.4"/>
+
+                    <Button
+                        android:text="Edit"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/twitterEditButton"
+                        android:layout_weight="0.1"
+                        android:textSize="12sp"
+                        android:onClick="twitterEditButton"/>
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center_vertical"
+                        android:id="@+id/twitterCheckBox"
+                        android:onClick="twitterCheckButton"
+                        android:checked="true"
+                        android:layout_weight="0.1"/>
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:weightSum="1"
+                    >
+
+                    <TextView
+                        android:text="Snapchat:"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textView5"
+                        android:textColor="@android:color/black"
+                        android:lines="1"
+                        android:layout_weight="0.4"/>
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/snapchatTextView"
+                        android:lines="1"
+                        android:layout_weight="0.4"/>
+
+                    <Button
+                        android:text="Edit"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/snapchatEditButton"
+                        android:layout_weight="0.1"
+                        android:textSize="12sp"
+                        android:onClick="snapchatEditButton"/>
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center_vertical"
+                        android:id="@+id/snapchatCheckBox"
+                        android:onClick="snapchatCheckButton"
+                        android:checked="true"
+                        android:layout_weight="0.1"/>
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:weightSum="1"
+                    >
+
+                    <TextView
+                        android:text="Instagram:"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textView6"
+                        android:textColor="@android:color/black"
+                        android:lines="1"
+                        android:layout_weight="0.4"/>
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/instagramTextView"
+                        android:lines="1"
+                        android:layout_weight="0.4"/>
+
+                    <Button
+                        android:text="Edit"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/instagramEditButton"
+                        android:layout_weight="0.1"
+                        android:textSize="12sp"
+                        android:onClick="instagramEditButton"/>
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center_vertical"
+                        android:id="@+id/instagramCheckBox"
+                        android:onClick="instagramCheckButton"
+                        android:checked="true"
+                        android:layout_weight="0.1"/>
+
+                </TableRow>
             </TableLayout>
 
             <Button

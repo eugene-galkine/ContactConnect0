@@ -1,4 +1,4 @@
-package com.eg.contactconnect0;
+package com.eg.contactconnect0.Contact;
 
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
@@ -6,7 +6,10 @@ import android.text.InputType;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import static android.Manifest.permission.READ_CONTACTS;
+import com.eg.contactconnect0.Client;
+import com.eg.contactconnect0.Contact.IContact;
+import com.eg.contactconnect0.MainActivity;
+import com.eg.contactconnect0.R;
 
 /**
  * Created by Eugene Galkine on 1/12/2017.
@@ -26,6 +29,8 @@ public class PhoneConnection extends IContact
         boolean checked = PreferenceManager.getDefaultSharedPreferences(main)
                 .getBoolean("phoneCheckBox", true);
         checkBox.setChecked(checked);
+
+        className = "Phone";
 
         tryFillForm();
     }
@@ -47,18 +52,5 @@ public class PhoneConnection extends IContact
             this.dataTextView.setText(main.getString(R.string.error_no_num));
             this.checkBox.setChecked(false);
         }
-    }
-
-    @Override
-    void dataWasChanged(String text)
-    {
-        Client.instance.contactInfo("Phone", text);
-    }
-
-    @Override
-    public String getQRData()
-    {
-        //return phone number if it is checked otherwise return nothing
-        return checkBox.isChecked() ? "Phone:"+dataTextView.getText().toString() : "";
     }
 }

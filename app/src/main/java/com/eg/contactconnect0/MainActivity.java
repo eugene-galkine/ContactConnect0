@@ -18,6 +18,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import com.eg.contactconnect0.Contact.EmailConnection;
+import com.eg.contactconnect0.Contact.FacebookConnection;
+import com.eg.contactconnect0.Contact.NameConnection;
+import com.eg.contactconnect0.Contact.PhoneConnection;
+import com.eg.contactconnect0.Contact.TwitterConnection;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.common.BitMatrix;
@@ -34,6 +39,8 @@ public class MainActivity extends AppCompatActivity
     private PhoneConnection phoneConnection;
     private NameConnection nameConnection;
     private EmailConnection emailConnection;
+    private FacebookConnection facebookConnection;
+    private TwitterConnection twitterConnection;
     private ViewFlipper viewFlipper;
 
     @Override
@@ -58,6 +65,14 @@ public class MainActivity extends AppCompatActivity
                 (TextView)findViewById(R.id.emailTextView),
                 (CheckBox)findViewById(R.id.emailCheckBox),
                 this);
+        facebookConnection = new FacebookConnection(
+                (TextView)findViewById(R.id.facebookTextView),
+                (CheckBox)findViewById(R.id.facebookCheckBox),
+                this);
+        twitterConnection = new TwitterConnection(
+                (TextView)findViewById(R.id.twitterTextView),
+                (CheckBox)findViewById(R.id.twitterCheckBox),
+                this);
 
         Client.instance.setMainActivity(this);
     }
@@ -77,6 +92,16 @@ public class MainActivity extends AppCompatActivity
         emailConnection.editData(this);
     }
 
+    public void facebookEditButton(View view)
+    {
+        facebookConnection.editData(this);
+    }
+
+    public void twitterEditButton(View view)
+    {
+        twitterConnection.editData(this);
+    }
+
     public void nameCheckButton(View view)
     {
         nameConnection.checkBoxClick("nameCheckBox");
@@ -91,6 +116,18 @@ public class MainActivity extends AppCompatActivity
     {
        emailConnection.checkBoxClick("emailCheckBox");
     }
+
+    public void facebookCheckButton(View view)
+    {
+        twitterConnection.checkBoxClick("twitterCheckBox");
+    }
+
+    public void twitterCheckButton(View view)
+    {
+        facebookConnection.checkBoxClick("twitterCheckBox");
+    }
+
+
 
     public void qrScanButton(View view)
     {
@@ -111,7 +148,7 @@ public class MainActivity extends AppCompatActivity
         try
         {
             //TODO don't do qr code manually
-            BitMatrix bitMatrix = multiFormatWriter.encode(nameConnection.getQRData()+ ":" + phoneConnection.getQRData() + ":" + emailConnection.getQRData(), BarcodeFormat.QR_CODE,400,400);
+            BitMatrix bitMatrix = multiFormatWriter.encode(nameConnection.getQRData()+ ":" + phoneConnection.getQRData() + ":" + emailConnection.getQRData() + ":" + facebookConnection.getQRData(), BarcodeFormat.QR_CODE,400,400);
             BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
             Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
             ((ImageView) findViewById(R.id.qrimage)).setImageBitmap(bitmap);

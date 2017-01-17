@@ -1,4 +1,4 @@
-package com.eg.contactconnect0;
+package com.eg.contactconnect0.Contact;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -8,6 +8,9 @@ import android.text.InputType;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.eg.contactconnect0.Client;
+import com.eg.contactconnect0.MainActivity;
 
 /**
  * Created by Eugene Galkine on 1/12/2017.
@@ -19,6 +22,7 @@ public abstract class IContact
     protected CheckBox checkBox;
     protected int inputType = 0;
     protected MainActivity main;
+    protected String className;
 
     public IContact (TextView dataField, CheckBox box, MainActivity ma)
     {
@@ -27,7 +31,10 @@ public abstract class IContact
         this.main = ma;
     }
 
-    abstract void dataWasChanged(String t);
+    void dataWasChanged(String t)
+    {
+        Client.instance.contactInfo(className, t);
+    }
 
     public void editData(Context context)
     {
@@ -59,7 +66,10 @@ public abstract class IContact
         input.requestFocus();
     }
 
-    public abstract String getQRData();
+    public String getQRData()
+    {
+        return checkBox.isChecked() ? className+":"+dataTextView.getText().toString() : "";
+    }
 
     public void setData(final String data)
     {

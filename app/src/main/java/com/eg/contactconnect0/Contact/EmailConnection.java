@@ -1,9 +1,13 @@
-package com.eg.contactconnect0;
+package com.eg.contactconnect0.Contact;
 
 import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.widget.CheckBox;
 import android.widget.TextView;
+
+import com.eg.contactconnect0.Client;
+import com.eg.contactconnect0.Contact.IContact;
+import com.eg.contactconnect0.MainActivity;
 
 /**
  * Created by Eugene Galkine on 1/14/2017.
@@ -21,17 +25,7 @@ public class EmailConnection extends IContact
         boolean checked = PreferenceManager.getDefaultSharedPreferences(main)
                 .getBoolean("emailCheckBox", true);
         checkBox.setChecked(checked);
-    }
 
-    @Override
-    void dataWasChanged(String t)
-    {
-        Client.instance.contactInfo("Email", t);
-    }
-
-    @Override
-    public String getQRData()
-    {
-        return checkBox.isChecked() ? "Email:"+dataTextView.getText().toString() : "";
+        className = "Email";
     }
 }

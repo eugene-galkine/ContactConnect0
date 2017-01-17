@@ -1,11 +1,14 @@
-package com.eg.contactconnect0;
+package com.eg.contactconnect0.Contact;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.widget.CheckBox;
 import android.widget.TextView;
+
+import com.eg.contactconnect0.Client;
+import com.eg.contactconnect0.Contact.IContact;
+import com.eg.contactconnect0.MainActivity;
 
 /**
  * Created by Eugene Galkine on 1/13/2017.
@@ -21,13 +24,9 @@ public class NameConnection extends IContact
                 .getBoolean("nameCheckBox", true);
         checkBox.setChecked(checked);
 
-        tryFillForm();
-    }
+        className = "Name";
 
-    @Override
-    void dataWasChanged(String t)
-    {
-        Client.instance.contactInfo("Name", t);
+        tryFillForm();
     }
 
     public void tryFillForm()
@@ -40,11 +39,5 @@ public class NameConnection extends IContact
             //Client.instance.contactInfo("Name", dataTextView.getText().toString());
             c.close();
         }
-    }
-
-    @Override
-    public String getQRData()
-    {
-        return checkBox.isChecked() ? "Name:"+dataTextView.getText().toString() : "";
     }
 }
