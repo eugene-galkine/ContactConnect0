@@ -1,6 +1,7 @@
 package com.eg.contactconnect0.Contact;
 
 import android.preference.PreferenceManager;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
@@ -14,14 +15,8 @@ import com.eg.contactconnect0.MainActivity;
 
 public class FacebookConnection extends IContact
 {
-    public FacebookConnection(TextView dataField, CheckBox box, MainActivity ma)
+    public FacebookConnection(TextView dataField, CheckBox box, Button b, MainActivity ma)
     {
-        super(dataField, box, ma);
-
-        boolean checked = PreferenceManager.getDefaultSharedPreferences(main)
-                .getBoolean("facebookCheckBox", true);
-        checkBox.setChecked(checked);
-
-        className = "Facebook";
+        super(dataField, box, b, ma, "Facebook");
     }
 }

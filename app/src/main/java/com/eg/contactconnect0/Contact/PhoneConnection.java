@@ -3,6 +3,7 @@ package com.eg.contactconnect0.Contact;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 import android.text.InputType;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
@@ -20,17 +21,11 @@ public class PhoneConnection extends IContact
     private TelephonyManager tMgr;
 
 
-    public PhoneConnection(TextView dataField, CheckBox box, TelephonyManager tMgr, MainActivity ma)
+    public PhoneConnection(TextView dataField, CheckBox box, Button b,  TelephonyManager tMgr, MainActivity ma)
     {
-        super(dataField, box, ma);
+        super(dataField, box, b, ma, "Phone");
         this.tMgr = tMgr;
         this.inputType = InputType.TYPE_CLASS_PHONE;
-
-        boolean checked = PreferenceManager.getDefaultSharedPreferences(main)
-                .getBoolean("phoneCheckBox", true);
-        checkBox.setChecked(checked);
-
-        className = "Phone";
 
         tryFillForm();
     }

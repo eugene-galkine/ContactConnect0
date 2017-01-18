@@ -59,15 +59,13 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/nameEditButton"
                         android:layout_weight="0.1"
-                        android:textSize="12sp"
-                        android:onClick="nameEditButton"/>
+                        android:textSize="12sp"/>
 
                     <CheckBox
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end|center_vertical"
                         android:id="@+id/nameCheckBox"
-                        android:onClick="nameCheckButton"
                         android:checked="true"
                         android:layout_weight="0.1"/>
                 </TableRow>
@@ -100,15 +98,13 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/phoneEditButton"
                         android:layout_weight="0.1"
-                        android:textSize="12sp"
-                        android:onClick="phoneEditButton"/>
+                        android:textSize="12sp"/>
 
                     <CheckBox
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end|center_vertical"
                         android:id="@+id/phoneCheckBox"
-                        android:onClick="phoneCheckButton"
                         android:checked="true"
                         android:layout_weight="0.1"/>
 
@@ -142,15 +138,13 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/emailEditButton"
                         android:layout_weight="0.1"
-                        android:textSize="12sp"
-                        android:onClick="emailEditButton"/>
+                        android:textSize="12sp"/>
 
                     <CheckBox
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end|center_vertical"
                         android:id="@+id/emailCheckBox"
-                        android:onClick="emailCheckButton"
                         android:checked="true"
                         android:layout_weight="0.1"/>
 
@@ -184,15 +178,13 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/facebookEditButton"
                         android:layout_weight="0.1"
-                        android:textSize="12sp"
-                        android:onClick="facebookEditButton"/>
+                        android:textSize="12sp"/>
 
                     <CheckBox
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end|center_vertical"
                         android:id="@+id/facebookCheckBox"
-                        android:onClick="facebookCheckButton"
                         android:checked="true"
                         android:layout_weight="0.1"/>
 
@@ -226,15 +218,13 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/twitterEditButton"
                         android:layout_weight="0.1"
-                        android:textSize="12sp"
-                        android:onClick="twitterEditButton"/>
+                        android:textSize="12sp"/>
 
                     <CheckBox
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end|center_vertical"
                         android:id="@+id/twitterCheckBox"
-                        android:onClick="twitterCheckButton"
                         android:checked="true"
                         android:layout_weight="0.1"/>
 
@@ -268,15 +258,13 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/snapchatEditButton"
                         android:layout_weight="0.1"
-                        android:textSize="12sp"
-                        android:onClick="snapchatEditButton"/>
+                        android:textSize="12sp"/>
 
                     <CheckBox
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end|center_vertical"
                         android:id="@+id/snapchatCheckBox"
-                        android:onClick="snapchatCheckButton"
                         android:checked="true"
                         android:layout_weight="0.1"/>
 
@@ -310,15 +298,13 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/instagramEditButton"
                         android:layout_weight="0.1"
-                        android:textSize="12sp"
-                        android:onClick="instagramEditButton"/>
+                        android:textSize="12sp"/>
 
                     <CheckBox
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end|center_vertical"
                         android:id="@+id/instagramCheckBox"
-                        android:onClick="instagramCheckButton"
                         android:checked="true"
                         android:layout_weight="0.1"/>
 

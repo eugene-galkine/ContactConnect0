@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.preference.PreferenceManager;
 import android.text.InputType;
+import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -24,11 +26,39 @@ public abstract class IContact
     protected MainActivity main;
     protected String className;
 
-    public IContact (TextView dataField, CheckBox box, MainActivity ma)
+    public IContact (TextView dataField, CheckBox box, Button button, MainActivity ma, String className)
     {
         this.dataTextView = dataField;
         this.checkBox = box;
         this.main = ma;
+        this.className = className;
+
+        this.checkBox.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                checkBoxClick();
+            }
+        });
+
+        button.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                editData();
+            }
+        });
+
+        loadCheckBox();
+    }
+
+    protected void loadCheckBox()
+    {
+        boolean checked = PreferenceManager.getDefaultSharedPreferences(main)
+                .getBoolean(className + "Enabled", true);
+        checkBox.setChecked(checked);
     }
 
     void dataWasChanged(String t)
@@ -36,13 +66,13 @@ public abstract class IContact
         Client.instance.contactInfo(className, t);
     }
 
-    public void editData(Context context)
+    public void editData()
     {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        AlertDialog.Builder builder = new AlertDialog.Builder(main);
         builder.setTitle("Edit");
 
         // Set up the input
-        final EditText input = new EditText(context);
+        final EditText input = new EditText(main);
         input.setInputType(InputType.TYPE_CLASS_TEXT | inputType);
         input.setText(dataTextView.getText().toString());
         builder.setView(input);
@@ -80,9 +110,9 @@ public abstract class IContact
         });
     }
 
-    public void checkBoxClick(String name)
+    public void checkBoxClick()
     {
         PreferenceManager.getDefaultSharedPreferences(main).edit()
-                .putBoolean(name, checkBox.isChecked()).apply();
+                .putBoolean(className + "Enabled", checkBox.isChecked()).apply();
     }
 }
