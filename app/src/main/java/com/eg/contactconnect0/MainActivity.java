@@ -3,7 +3,9 @@ package com.eg.contactconnect0;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -11,6 +13,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -26,12 +30,16 @@ import com.eg.contactconnect0.Contact.NameConnection;
 import com.eg.contactconnect0.Contact.PhoneConnection;
 import com.eg.contactconnect0.Contact.SnapChatConnection;
 import com.eg.contactconnect0.Contact.TwitterConnection;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
+
+import java.security.MessageDigest;
 
 import static android.Manifest.permission.READ_SMS;
 
@@ -53,6 +61,9 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        //AppEventsLogger.activateApp(this);
 
         viewFlipper = (ViewFlipper) findViewById(R.id.view_flipper);
 
@@ -95,6 +106,20 @@ public class MainActivity extends AppCompatActivity
                 this);
 
         Client.instance.setMainActivity(this);
+
+        /*try SMOKE HASH
+        {
+            PackageInfo info = getPackageManager().getPackageInfo("com.eg.contactconnect0",PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures)
+            {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("KeyHash:", Base64.encodeToString(md.digest(),Base64.DEFAULT));
+            }
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }*/
     }
 
     public void qrScanButton(View view)

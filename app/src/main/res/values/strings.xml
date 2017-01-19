@@ -16,4 +16,8 @@
     <string name="error_connection_failed">The connection timed out</string>
     <string name="error_no_num">No Number Found</string>
     <string name="sms_permission_rationale">"SMS permissions are needed for phone number autofill."</string>
+
+    <!-- facebook -->
+    <string name="facebook_app_id">1378294752229739</string>
+    <string name="fb_login_protocol_scheme">fb1378294752229739</string>
 </resources>
