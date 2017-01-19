@@ -42,6 +42,13 @@ public abstract class IContact
             }
         });
 
+        setButtonListener(button);
+
+        loadCheckBox();
+    }
+
+    protected void setButtonListener(Button button)
+    {
         button.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -50,9 +57,7 @@ public abstract class IContact
                 editData();
             }
         });
-
-        loadCheckBox();
-    }
+    };
 
     protected void loadCheckBox()
     {

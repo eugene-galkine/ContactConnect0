@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
@@ -30,8 +31,10 @@ import com.eg.contactconnect0.Contact.NameConnection;
 import com.eg.contactconnect0.Contact.PhoneConnection;
 import com.eg.contactconnect0.Contact.SnapChatConnection;
 import com.eg.contactconnect0.Contact.TwitterConnection;
+import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.widget.LoginButton;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.common.BitMatrix;
@@ -43,9 +46,11 @@ import java.security.MessageDigest;
 
 import static android.Manifest.permission.READ_SMS;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends FragmentActivity
 {
     private static final int REQUEST_READ_SMS = 1;
+
+    public static CallbackManager callbackManager;
 
     private PhoneConnection phoneConnection;
     private NameConnection nameConnection;
@@ -60,10 +65,11 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
 
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        //AppEventsLogger.activateApp(this);
+
+        callbackManager = CallbackManager.Factory.create();
 
         viewFlipper = (ViewFlipper) findViewById(R.id.view_flipper);
 
@@ -87,7 +93,7 @@ public class MainActivity extends AppCompatActivity
         facebookConnection = new FacebookConnection(
                 (TextView)findViewById(R.id.facebookTextView),
                 (CheckBox)findViewById(R.id.facebookCheckBox),
-                (Button)findViewById(R.id.facebookEditButton),
+                (LoginButton)findViewById(R.id.facebookEditButton),
                 this);
         twitterConnection = new TwitterConnection(
                 (TextView)findViewById(R.id.twitterTextView),
@@ -191,6 +197,8 @@ public class MainActivity extends AppCompatActivity
             //e.printStackTrace();
         }
     }
+
+
 
     public void recieveData(String text)
     {
@@ -308,10 +316,12 @@ public class MainActivity extends AppCompatActivity
                 //Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
                 processQRData(result.getContents());
             }
-        } else
-        {
+        } //else
+        //{
             // This is important, otherwise the result will not be passed to the fragment
             super.onActivityResult(requestCode, resultCode, data);
-        }
+        callbackManager.onActivityResult(requestCode,
+                resultCode, data);
+        //}
     }
 }

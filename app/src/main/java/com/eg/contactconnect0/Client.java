@@ -68,8 +68,12 @@ public class Client
         try
         {
             //InFromServer.close();
-            OutToServer.close();
-            ClientSocket.close();
+            if (OutToServer != null)
+                OutToServer.close();
+
+            if (ClientSocket != null)
+                ClientSocket.close();
+
             ClientSocket = null;
         } catch (IOException e)
         {
@@ -87,6 +91,9 @@ public class Client
 
     private void sendMessage (String s)
     {
+        if (ClientSocket == null)
+            return;
+
         try
         {
             OutToServer.writeBytes(s + '\n');

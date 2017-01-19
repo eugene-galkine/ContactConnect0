@@ -170,14 +170,14 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/facebookTextView"
                         android:lines="1"
-                        android:layout_weight="0.4"/>
+                        android:layout_weight="0.3"/>
 
-                    <Button
-                        android:text="Edit"
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
+                    <com.facebook.login.widget.LoginButton
                         android:id="@+id/facebookEditButton"
-                        android:layout_weight="0.1"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:layout_weight="0.2"
                         android:textSize="12sp"/>
 
                     <CheckBox
