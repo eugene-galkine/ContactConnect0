@@ -38,7 +38,10 @@ public class FacebookConnection extends IContact
                 Profile profile = Profile.getCurrentProfile();
 
                 if (profile != null)
+                {
+                    dataWasChanged(profile.getName());
                     dataField.setText(profile.getName());
+                }
             }
 
             @Override

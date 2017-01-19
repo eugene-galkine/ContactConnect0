@@ -229,6 +229,8 @@ public class MainActivity extends FragmentActivity
                     phoneConnection.setData(data);
                 else if (type.equals("Email"))
                     emailConnection.setData(data);
+                else if (type.equals("Facebook"))
+                    facebookConnection.setData(data);
             } while (buffer.contains(":"));
         } catch (Exception e)
         {
