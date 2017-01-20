@@ -23,11 +23,13 @@ public class Client
     private String UserName, Password;
     private boolean hasResponse, connectionAccepted;
     private MainActivity mainActivity;
+    private Object lockObj;
 
     private Client()
     {
         this.UserName = "";
         this.Password = "";
+        lockObj = new Object();
     }
 
     public void connect (String userName, String password)
@@ -85,8 +87,8 @@ public class Client
 
     public void resume()
     {
+        new waitToSendThread("REQUEST_DATA").start();
         connect();
-        sendMessage("REQUEST_DATA");
     }
 
     private void sendMessage (String s)
@@ -102,7 +104,11 @@ public class Client
 
     public void contactInfo (String type, String id)
     {
-        sendMessage("CONTACT_INFO" + type + ":" + id);
+        //if we aren't offline and we aren't connected, wait for connection
+        if (!UserName.equals("") && ClientSocket == null)
+            new waitToSendThread("CONTACT_INFO" + type + ":" + id).start();
+        else
+            sendMessage("CONTACT_INFO" + type + ":" + id);
     }
 
     public boolean isHasResponse()
@@ -145,6 +151,10 @@ public class Client
                         //MainActivity.getInstance().ConnectionEstablished();
                         connectionAccepted = true;
                         hasResponse = true;
+                        synchronized (lockObj)
+                        {
+                            lockObj.notify();
+                        }
                     } else if (in.startsWith("CONNECTION_DENIED"))
                     {
                         //MainActivity.getInstance().ConnectionDenied();
@@ -192,6 +202,37 @@ public class Client
                 //else
                 //    e.printStackTrace();
             }
+        }
+    }
+
+    private class waitToSendThread extends Thread
+    {
+        private String dataToSend;
+
+        public waitToSendThread(String input)
+        {
+            dataToSend = input;
+        }
+
+        @Override
+        public void run()
+        {
+            //wait until we have network connection before sending the message
+            while (ClientSocket == null)
+            {
+                try
+                {
+                    synchronized (lockObj)
+                    {
+                        lockObj.wait();
+                    }
+                } catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+
+            sendMessage(dataToSend);
         }
     }
 }

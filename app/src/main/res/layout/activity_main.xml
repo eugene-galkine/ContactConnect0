@@ -216,61 +216,23 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/twitterTextView"
                             android:lines="1"
-                            android:layout_weight="0.4"/>
+                            android:layout_weight="0.3"/>
 
-                        <Button
-                            android:text="Edit"
-                            android:layout_width="50dp"
+                        <com.twitter.sdk.android.core.identity.TwitterLoginButton
+                            android:text="Login"
+                            android:layout_width="wrap_content"
                             android:layout_height="40dp"
                             android:id="@+id/twitterEditButton"
-                            android:layout_weight="0.1"
+                            android:layout_weight="0.2"
+                            android:lines="1"
                             android:textSize="12sp"/>
+
 
                         <CheckBox
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="end|center_vertical"
                             android:id="@+id/twitterCheckBox"
-                            android:checked="true"
-                            android:layout_weight="0.1"/>
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:weightSum="1"
-                        >
-
-                        <TextView
-                            android:text="Snapchat:"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/textView5"
-                            android:textColor="@android:color/black"
-                            android:lines="1"
-                            android:layout_weight="0.4"/>
-
-                        <TextView
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/snapchatTextView"
-                            android:lines="1"
-                            android:layout_weight="0.4"/>
-
-                        <Button
-                            android:text="Edit"
-                            android:layout_width="50dp"
-                            android:layout_height="40dp"
-                            android:id="@+id/snapchatEditButton"
-                            android:layout_weight="0.1"
-                            android:textSize="12sp"/>
-
-                        <CheckBox
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="end|center_vertical"
-                            android:id="@+id/snapchatCheckBox"
                             android:checked="true"
                             android:layout_weight="0.1"/>
 

@@ -3,19 +3,14 @@ package com.eg.contactconnect0;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
-import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -29,11 +24,9 @@ import com.eg.contactconnect0.Contact.FacebookConnection;
 import com.eg.contactconnect0.Contact.InstagramConnection;
 import com.eg.contactconnect0.Contact.NameConnection;
 import com.eg.contactconnect0.Contact.PhoneConnection;
-import com.eg.contactconnect0.Contact.SnapChatConnection;
 import com.eg.contactconnect0.Contact.TwitterConnection;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.widget.LoginButton;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
@@ -41,14 +34,21 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
+import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
-import java.security.MessageDigest;
+import io.fabric.sdk.android.Fabric;
 
 import static android.Manifest.permission.READ_SMS;
 
-public class MainActivity extends FragmentActivity
+public class MainActivity extends AppCompatActivity
 {
     private static final int REQUEST_READ_SMS = 1;
+
+    // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
+    private static final String TWITTER_KEY = "m0F47crvysltsE0WjTCi7fGrl";
+    private static final String TWITTER_SECRET = "k7jlcY2hzCVGqx6AI7mpbWIyPYY47iCNdHxNNncxIgVf5NTjBx";
 
     public static CallbackManager callbackManager;
 
@@ -57,21 +57,29 @@ public class MainActivity extends FragmentActivity
     private EmailConnection emailConnection;
     private FacebookConnection facebookConnection;
     private TwitterConnection twitterConnection;
-    private SnapChatConnection snapChatConnection;
     private InstagramConnection instagramConnection;
     private ViewFlipper viewFlipper;
+    private TwitterLoginButton loginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
+        Fabric.with(this, new Twitter(authConfig));
+
         setContentView(R.layout.activity_main);
 
 
         callbackManager = CallbackManager.Factory.create();
 
         viewFlipper = (ViewFlipper) findViewById(R.id.view_flipper);
+        //twitter login button
+        loginButton = (TwitterLoginButton) findViewById(R.id.twitterEditButton);
+        loginButton.setTextSize(12);
+        loginButton.setText("Log in");
+        loginButton.setLines(1);
 
         //set up contact methods
         phoneConnection = new PhoneConnection(
@@ -98,12 +106,7 @@ public class MainActivity extends FragmentActivity
         twitterConnection = new TwitterConnection(
                 (TextView)findViewById(R.id.twitterTextView),
                 (CheckBox)findViewById(R.id.twitterCheckBox),
-                (Button)findViewById(R.id.twitterEditButton),
-                this);
-        snapChatConnection = new SnapChatConnection(
-                (TextView)findViewById(R.id.snapchatTextView),
-                (CheckBox)findViewById(R.id.snapchatCheckBox),
-                (Button)findViewById(R.id.snapchatEditButton),
+                loginButton,
                 this);
         instagramConnection = new InstagramConnection(
                 (TextView)findViewById(R.id.instagramTextView),
@@ -133,7 +136,7 @@ public class MainActivity extends FragmentActivity
         //open the qr code scanner
         IntentIntegrator integrator = new IntentIntegrator(this);
         integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
-        integrator.setPrompt("Scan a ContactConnect QR Code");
+        integrator.setPrompt("Scan a SOCIALINK QR Code");
         integrator.setCameraId(0);
         integrator.setBeepEnabled(true);
         integrator.setBarcodeImageEnabled(false);
@@ -147,7 +150,7 @@ public class MainActivity extends FragmentActivity
         try
         {
             //TODO don't do qr code manually
-            BitMatrix bitMatrix = multiFormatWriter.encode(nameConnection.getQRData()+ ":" + phoneConnection.getQRData() + ":" + emailConnection.getQRData() + ":" + facebookConnection.getQRData() + ":" + twitterConnection.getQRData() + ":" + snapChatConnection.getQRData() + ":" + instagramConnection.getQRData(), BarcodeFormat.QR_CODE,400,400);
+            BitMatrix bitMatrix = multiFormatWriter.encode(nameConnection.getQRData()+ ":" + phoneConnection.getQRData() + ":" + emailConnection.getQRData() + ":" + facebookConnection.getQRData() + ":" + twitterConnection.getQRData() + ":" + instagramConnection.getQRData(), BarcodeFormat.QR_CODE,400,400);
             BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
             Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
             ((ImageView) findViewById(R.id.qrimage)).setImageBitmap(bitmap);
@@ -231,6 +234,8 @@ public class MainActivity extends FragmentActivity
                     emailConnection.setData(data);
                 else if (type.equals("Facebook"))
                     facebookConnection.setData(data);
+                else if (type.equals("Twitter"))
+                    twitterConnection.setData(data);
             } while (buffer.contains(":"));
         } catch (Exception e)
         {
@@ -318,12 +323,13 @@ public class MainActivity extends FragmentActivity
                 //Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
                 processQRData(result.getContents());
             }
-        } //else
-        //{
-            // This is important, otherwise the result will not be passed to the fragment
-            super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode,
-                resultCode, data);
-        //}
+        }
+
+        // This is important, otherwise the result will not be passed to the fragment
+        super.onActivityResult(requestCode, resultCode, data);
+        //for facebook login
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+        //for twitter login
+        loginButton.onActivityResult(requestCode, resultCode, data);
     }
 }
